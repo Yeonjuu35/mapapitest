@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="store">
+        <ul>
+            <!-- 데이터 맞춤 -->
+        </ul>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <!-- 에이젝스 쓸때 보편적으로 2.x 버전을 쓰도록 함 (2.x가 안정적, 3.x은 튕겨냄) -->
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                url : "/server/json/data.json",
+                type : "GET",
+                dataType : "json",
+                success : function(mapinfo){
+                    console.log("지점정보", mapinfo);
+
+                    let maptag = ''; // 반드시 초기값 선언은 for, forEach 안에서 하지 않는다. 대입식도 넣으면 안됨
+                    
+                    mapinfo.forEach(function(ele, idx){
+                        maptag += `<li>`;
+                        maptag += `<h2 class="storenm"><strong>지점명</strong><span>${ele.storenm}</span></h2>`;
+                        maptag += `<p class="storeem"><strong>지점장</strong><span>${ele.storeem}</span></p>`;
+                        maptag += `<p class="storeem"><strong>위치</strong><span>${ele.addr}</span></p>`;
+                        // 데이터에 따라서 커스터마이징
+                        maptag += `</li>`;
+                    });
+                    
+                    $("#store ul").html(maptag);
+                },
+                error : function(){
+
+                }
+            })
+        })
+    </script>
+</body>
+</html>
